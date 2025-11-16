@@ -22,7 +22,7 @@ Todo está pensado para ejecutarse en **Docker**: tanto el servicio como los tes
 
 **2. Arquitectura del proyecto**
 
-Estructura de carpetas:
+  Estructura de carpetas:
 
 ```text
 
@@ -35,19 +35,20 @@ Estructura de carpetas:
   │  └─ test_analyze_endpoint.py  # Tests unitarios del endpoint /analyze
   ├─ requirements.txt
   └─ Dockerfile
+```
+
+**3. API REST**
 
 
-3. API REST
+   Endpoint principal
 
+   POST /analyze
 
-  Endpoint principal
-
-  POST /analyze
-
-  Request (JSON)
+   Request (JSON)
 
   Ejemplo:
 
+```json
 
   {
     "release_cycle": "RC-20250328",
@@ -63,31 +64,31 @@ Estructura de carpetas:
     "usage_cpu": 0.47,
     "memory_mb": 812.3
   }
-
+```
   Ejemplo Response (JSON):
 
-
+```json
   {
     "p_flaky": 0.76,
     "priority": "high",
     "recommendation": "Ejecutar en paralelo para confirmar flakiness, revisar logs de escenarios intermitentes y fijar dependencias del entorno antes del próximo release."
   }
+```
 
 
+**4. Ejecución con Docker (servicio)**
 
-4. Ejecución con Docker (servicio)
 
-
-- Construir la imagen
+  - Construir la imagen
 
     docker build -t parte2-trackgenerativo .
 
 
-- Levantar el microservicio para el microservicio REST.
+  - Levantar el microservicio REST.
 
     docker run -d -p 8000:8000 --name flaky_service parte2-trackgenerativo
 
 
-- Ejecutar todos los tests
+  - Ejecutar todos los tests
 
     docker run --rm parte2-trackgenerativo pytest
